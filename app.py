@@ -1,3 +1,4 @@
+from datetime import datetime
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
@@ -15,7 +16,11 @@ DB.init_app(app)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    c = sqlite3.connect('database.db')
+    cur = c.cursor()
+    cur.execute("SELECT title,artist from Albums")
+    
+    return render_template('home.html', test = cur.fetchall())
 
 
 @app.route('/edit', methods=['GET','POST'])
@@ -29,6 +34,7 @@ def edit():
 def reset():
     DB.drop_all()
     DB.create_all()
+    DB.session.add(Albums(title='One',artist='The Beatles',released=datetime(1994,2,13)))
     DB.session.commit()
     return 'Data base was re-established'
 

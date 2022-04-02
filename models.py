@@ -7,7 +7,7 @@ DB = SQLAlchemy()
 class Albums(DB.Model):
     '''Creates a Album Table with SQLAlchemy'''
     # id column schema
-    id = DB.Column(DB.BigInteger, primary_key = True, nullable = False)
+    id = DB.Column(DB.Integer, primary_key = True, autoincrement=True)
     # title column schema
     title = DB.Column(DB.String(30), nullable = False)
     # artist column schema
@@ -21,7 +21,7 @@ class Albums(DB.Model):
 class Tracks(DB.Model):
     '''Creates a Tracks Table with SQLAlchemy'''
     # id column schema
-    id = DB.Column(DB.BigInteger, primary_key = True, nullable = False)
+    id = DB.Column(DB.Integer, primary_key = True, autoincrement=True)
     # name column schema
     name = DB.Column(DB.String(30), nullable = False)
     # artist column schema

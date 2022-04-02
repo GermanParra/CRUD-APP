@@ -7,9 +7,6 @@
 
         <lable for="artist">Artist</lable> 
         <input type="text" name="artist" value="" required> <br>
-
-        <lable for="genre">Genre</lable> 
-        <input type="text" name="genre" value="" required> <br>
         
         <label for="released">Released</label>
         <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
@@ -38,24 +35,19 @@ td { word-wrap:break-word; }
   <tr>
     <th>Title</th>
     <th>Artist</th>
-    <th>Genre</th>
     <th>Released</th>
     <th>Action</th>
   </tr>
+  
   <tr>
-    <td>Alfreds Futterkiste</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-    <td>Maria Anders</td>
-    <td>Germany</td>
-  </tr>
+    {% for row in test %}
   <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-    <td>Francisco Chang</td>
-    <td>Mexico</td>
-  </tr>
+    <th> {{ row[0] }}</th>
+    <th> {{ row[1] }}</th>
+    <th> {{ row[2] }}</th>
+  </tr> 
+    {% endfor %}
+    
 </table>
 
 </body>

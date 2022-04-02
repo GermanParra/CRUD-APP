@@ -1,6 +1,6 @@
-<h1>CRUD</h1>
+<h1>CRUD APP</h1>
 
-<form action="edit" method="get">
+<form action="album_insert" method="get">
     
         <lable for="title">Title</lable> 
         <input type="text" name="title" value="" required> <br>
@@ -11,9 +11,11 @@
         <label for="released">Released</label>
         <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
 
-        <input type="submit" value="Gerten">
+        <input type="submit" value="Insert New Album">
 </form>
-
+<form action="reset" method="get">
+  <input type="submit" value="Reset Database">
+</form>
 <html>
 <style>
 table, th, td {

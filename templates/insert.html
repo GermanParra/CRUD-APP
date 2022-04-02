@@ -1,0 +1,19 @@
+<h2>{{new_row[0]}} by {{new_row[1]}} was succesfully added to the Albums table on the Database</h2>
+
+<form action="/" method="get">
+    <input type="submit" value="Home Page">
+</form>
+
+<form action="album_insert" method="get">
+    
+    <lable for="title">Title</lable> 
+    <input type="text" name="title" value="" required> <br>
+
+    <lable for="artist">Artist</lable> 
+    <input type="text" name="artist" value="" required> <br>
+    
+    <label for="released">Released</label>
+    <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
+
+    <input type="submit" value="Insert New Album">
+</form>

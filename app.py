@@ -1,3 +1,4 @@
+from ast import Global, Pass
 from datetime import datetime
 import sqlite3
 from flask import Flask, render_template, request, redirect, url_for, jsonify
@@ -14,6 +15,7 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db' #getenv('DATABAS
 DB.init_app(app)
 
 
+
 @app.route('/')
 def home():
     c = sqlite3.connect('database.db')
@@ -22,19 +24,22 @@ def home():
     
     return render_template('home.html', test = cur.fetchall())
 
+@app.route('/album_insert')
+def album_insert():
+    new_row = [request.args['title'],request.args['artist'],datetime.strptime(request.args['released'], '%Y-%m-%d')]
+    DB.session.add(Albums(title=new_row[0], artist=new_row[1], released=new_row[2]))
+    DB.session.commit()
+    return render_template('insert.html', new_row=new_row)
 
-@app.route('/edit', methods=['GET','POST'])
-def edit():
+@app.route('/insert')
+def insert():
     
-    return jsonify(title=request.args['title'],
-                   artist=request.args['artist'],
-                   released=request.args['released'])
+    return request.args['released']
                                
 @app.route('/reset')
 def reset():
     DB.drop_all()
     DB.create_all()
-    DB.session.add(Albums(title='One',artist='The Beatles',released=datetime(1994,2,13)))
     DB.session.commit()
     return 'Data base was re-established'
 

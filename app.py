@@ -18,7 +18,7 @@ DB.init_app(app)
 def home():
     c = sqlite3.connect('database.db')
     cur = c.cursor()
-    cur.execute("SELECT title,artist from Albums")
+    cur.execute("SELECT * from Albums")
     
     return render_template('home.html', test = cur.fetchall())
 

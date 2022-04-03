@@ -26,7 +26,9 @@ table, th, td {
   padding: 6px;
 }
 
-th { background-color: #88cece; }
+tr {background-color: #abe9e9;}
+tr:first-child {background-color: #6fc2c2;}
+
 td { word-wrap:break-word; }
 </style>
 <body>
@@ -51,9 +53,17 @@ td { word-wrap:break-word; }
   <tr>
     {% for row in Albums %}
   <tr>
+    
     <th> {{ row[1] }}</th>
     <th> {{ row[2] }}</th>
     <th> {{ row[3] }}</th>
+    <th>
+        <form action="edit" method="post">
+          <input type="hidden" value="{{ row[0] }}" name="ROW_ID">
+          <input type="submit" value="Edit"> 
+        </form>
+    </th>
+    
   </tr> 
     {% endfor %}
     

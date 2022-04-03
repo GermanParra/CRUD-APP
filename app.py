@@ -60,5 +60,10 @@ def reset():
     return render_template('reset.html', Albums = albums, Rows_count=rows_count)
 
 
+@app.route('/edit', methods=['GET','POST'])
+def edit():
+    return request.form["ROW_ID"]
+
+
 if __name__ == '__main__':
     app.run()

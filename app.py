@@ -1,7 +1,7 @@
 from ast import Global, Pass
 from datetime import datetime
 import sqlite3
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
 
 app = Flask(__name__)
@@ -15,27 +15,34 @@ app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db' #getenv('DATABAS
 DB.init_app(app)
 
 
-
 @app.route('/')
 def home():
-    c = sqlite3.connect('database.db')
-    cur = c.cursor()
-    cur.execute("SELECT * from Albums")
+    # Extracting Info From Albums Table to create HTML table
+    conection = sqlite3.connect('database.db')
+    cursor = conection.cursor()
+    albums = cursor.execute("SELECT * from Albums").fetchall()
+    rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
     
-    return render_template('home.html', test = cur.fetchall())
+    return render_template('home.html', Albums = albums, Rows_count=rows_count)
+
 
 @app.route('/album_insert')
 def album_insert():
-    new_row = [request.args['title'],request.args['artist'],datetime.strptime(request.args['released'], '%Y-%m-%d')]
-    DB.session.add(Albums(title=new_row[0], artist=new_row[1], released=new_row[2]))
+    # Inserting New Row Info into Albums Table 
+    row_info = [request.args['title'], request.args['artist'], datetime.strptime(request.args['released'], '%Y-%m-%d')]
+    row = Albums(title=row_info[0], artist=row_info[1], released=row_info[2])
+    DB.session.add(row)
     DB.session.commit()
-    return render_template('insert.html', new_row=new_row)
 
-@app.route('/insert')
-def insert():
+    # Extracting Info From Albums Table to create HTML table
+    conection = sqlite3.connect('database.db')
+    cursor = conection.cursor()
+    rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
+    albums = cursor.execute("SELECT * from Albums").fetchall()
     
-    return request.args['released']
-                               
+    return render_template('insert.html', new_row_info=row_info, Albums = albums, Rows_count=rows_count)
+
+
 @app.route('/reset')
 def reset():
     DB.drop_all()

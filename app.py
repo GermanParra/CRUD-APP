@@ -5,6 +5,8 @@ from typing import Type
 from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
 
+
+
 app = Flask(__name__)
 
 
@@ -18,11 +20,9 @@ DB.init_app(app)
 
 @app.route('/')
 def home():
-    # Extracting Info From Albums Table to create HTML table
-    conection = sqlite3.connect('database.db')
-    cursor = conection.cursor()
-    albums = cursor.execute("SELECT * from Albums").fetchall()
-    rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    rows_count = Albums.query.count()
     
     return render_template('home.html', Albums = albums, Rows_count=rows_count)
 
@@ -37,11 +37,9 @@ def album_insert():
         DB.session.add(row)
         DB.session.commit()
 
-    # Extracting Info From Albums Table to create HTML table
-    conection = sqlite3.connect('database.db')
-    cursor = conection.cursor()
-    rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
-    albums = cursor.execute("SELECT * from Albums").fetchall()
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    rows_count = Albums.query.count()
     
     return render_template('insert.html', new_row_info=album_info, Albums = albums, Rows_count=rows_count)
 
@@ -52,49 +50,41 @@ def reset():
     DB.drop_all()
     DB.create_all()
     DB.session.commit()
-
-    # Extracting Info From Albums Table to create HTML table
-    conection = sqlite3.connect('database.db')
-    cursor = conection.cursor()
-    albums = cursor.execute("SELECT * from Albums").fetchall()
-    rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
-
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    rows_count = Albums.query.count()
     return render_template('reset.html', Albums = albums, Rows_count=rows_count)
 
 
-@app.route('/edit', methods=['POST', 'GET'])
+@app.route('/edit', methods=['POST'])
 def edit():
-    conection = sqlite3.connect('database.db')
-    cursor = conection.cursor()
-
-    if request.method == 'POST':
-        album_info = request.form["row_info"][1:-2].split(',')
-        album_info[0] = int(album_info[0])
-        # Extracting Info From Albums Table to create HTML table
-        albums = cursor.execute("SELECT * from Albums").fetchall()
-        rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
-
+    if "row_id" in request.form:
+        album_id = request.form["row_id"]
+        album_info = Albums.query.filter_by(id=album_id).first()
+        # Quering DB to display table and row count on HTML 
+        albums = Albums.query.all()
+        rows_count = Albums.query.count()
         return render_template('album_edit.html', Rows_count=rows_count, Albums = albums, album_info = album_info)
     else:
-        id = request.args['album_id']
-        title = request.args['edited_title']
-        artist = request.args['edited_artist']
-        released = request.args['edited_released']
-
+        # Requesting Changes
+        id = request.form['album_id']
+        title = request.form['edited_title']
+        artist = request.form['edited_artist']
+        released = request.form['edited_released']
+        # Replacing Changed features
         row = Albums.query.get(id)
         row.title = title
         row.artist = artist
         row.released = datetime.strptime(released, '%Y-%m-%d')
-
+        # Saving Changes
         DB.session.commit()
-
-        albums = cursor.execute("SELECT * from Albums").fetchall()
-        rows_count = cursor.execute("SELECT COUNT(*) from Albums").fetchall()
+        # Quering DB to display table and row count on HTML 
+        albums = Albums.query.all()
+        rows_count = Albums.query.count()
     
         return render_template('home.html', Albums = albums, Rows_count=rows_count)
         
 
-
-
 if __name__ == '__main__':
     app.run()
+

@@ -34,12 +34,12 @@ td { word-wrap:break-word; }
 <body>
 
 <h2>Albums Table</h2>
-<h4>{% if Rows_count[0][0] == 0 %}
+<h4>{% if Rows_count == 0 %}
     The Albums table is Empty
-    {% elif Rows_count[0][0] == 1 %}
+    {% elif Rows_count == 1 %}
     There is 1 row on the Albums table
     {% else %}
-    There are {{Rows_count[0][0]}} rows on the Albums table
+    There are {{Rows_count}} rows on the Albums table
     {% endif %}</h4>
 
 <table style="width:70%">
@@ -52,23 +52,23 @@ td { word-wrap:break-word; }
     <tr>
       {% for row in Albums %}
     <tr>
-        <h4>{% if album_info[0] != row[0] %}
-            <th> {{ row[1] }}</th>
-            <th> {{ row[2] }}</th>
-            <th> {{ row[3] }}</th>
+        <h4>{% if album_info.id != row.id %}
+            <th> {{ row.title }}</th>
+            <th> {{ row.artist }}</th>
+            <th> {{ row.released }}</th>
             <th>
-                <form action="edit" method="post">
-                  <input type="hidden" value="{{ row }}" name="row_info">
-                  <input type="submit" value="Edit"> 
-                </form>
+              <form action="edit" method="post">
+                <input type="hidden" value="{{ row.id }}" name="row_id">
+                <input type="submit" value="Edit"> 
+              </form>
             </th>
             {% else %}
-            <form action="edit" method="get">
-            <th><input type="text" name="edited_title" value="{{ album_info[1][2:-1] }}" required></th>
-            <th><input type="text" name="edited_artist" value="{{ album_info[2][2:-1] }}" required></th>
-            <th><input type="date" name="edited_released" value="" min="1900-01-01" max="2025-01-01" required></th>
+            <form action="edit" method="post">
+            <th><input type="text" name="edited_title" value="{{ album_info.title }}" required></th>
+            <th><input type="text" name="edited_artist" value="{{ album_info.artist }}" required></th>
+            <th><input type="date" name="edited_released" value="{{ album_info.released }}" min="1900-01-01" max="2025-01-01" required></th>
             <th>
-                <input type="hidden" name="album_id" value="{{ album_info[0]}}">
+                <input type="hidden" name="album_id" value="{{ album_info.id }}">
                 <input type="submit"> 
             </form>
             </th>

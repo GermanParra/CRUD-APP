@@ -1,0 +1,84 @@
+<h1>CRUD APP</h1>
+
+<form action="album_insert" method="post">
+    
+        <lable for="title">Title</lable> 
+        <input type="text" name="title" value="" required> <br>
+
+        <lable for="artist">Artist</lable> 
+        <input type="text" name="artist" value="" required> <br>
+        
+        <label for="released">Released</label>
+        <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
+
+        <input type="submit" value="Insert New Album">
+</form>
+<form action="reset" method="post">
+  <input type="submit" value="Reset Database">
+</form>
+<html>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout:fixed;
+  padding: 6px;
+}
+
+tr {background-color: #abe9e9;}
+tr:first-child {background-color: #6fc2c2;}
+
+td { word-wrap:break-word; }
+</style>
+<body>
+
+<h2>Albums Table</h2>
+<h4>{% if Rows_count[0][0] == 0 %}
+    The Albums table is Empty
+    {% elif Rows_count[0][0] == 1 %}
+    There is 1 row on the Albums table
+    {% else %}
+    There are {{Rows_count[0][0]}} rows on the Albums table
+    {% endif %}</h4>
+
+<table style="width:70%">
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Released</th>
+      <th>Action</th>
+    </tr>
+    <tr>
+      {% for row in Albums %}
+    <tr>
+        <h4>{% if album_info[0] != row[0] %}
+            <th> {{ row[1] }}</th>
+            <th> {{ row[2] }}</th>
+            <th> {{ row[3] }}</th>
+            <th>
+                <form action="edit" method="post">
+                  <input type="hidden" value="{{ row }}" name="row_info">
+                  <input type="submit" value="Edit"> 
+                </form>
+            </th>
+            {% else %}
+            <form action="edit" method="get">
+            <th><input type="text" name="edited_title" value="{{ album_info[1][2:-1] }}" required></th>
+            <th><input type="text" name="edited_artist" value="{{ album_info[2][2:-1] }}" required></th>
+            <th><input type="date" name="edited_released" value="" min="1900-01-01" max="2025-01-01" required></th>
+            <th>
+                <input type="hidden" name="album_id" value="{{ album_info[0]}}">
+                <input type="submit"> 
+            </form>
+            </th>
+            {% endif %}</h4> 
+            
+      
+    </tr> 
+      {% endfor %}
+      
+  </table>
+  
+  </body>
+  </html>

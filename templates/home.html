@@ -59,7 +59,7 @@ td { word-wrap:break-word; }
     <th> {{ row[3] }}</th>
     <th>
         <form action="edit" method="post">
-          <input type="hidden" value="{{ row[0] }}" name="ROW_ID">
+          <input type="hidden" value="{{ row }}" name="row_info">
           <input type="submit" value="Edit"> 
         </form>
     </th>

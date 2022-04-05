@@ -22,12 +22,14 @@ class Tracks(DB.Model):
     '''Creates a Tracks Table with SQLAlchemy'''
     # id column schema
     id = DB.Column(DB.Integer, primary_key = True, autoincrement=True)
+    # User Column schema
+    album_id = DB.Column(DB.Integer, DB.ForeignKey('albums.id'), nullable=False)
     # name column schema
-    name = DB.Column(DB.String(30), nullable = False)
+    name = DB.Column(DB.String(30), default="None")
     # artist column schema
-    genre = DB.Column(DB.String(30), nullable = False)
+    genre = DB.Column(DB.String(30), default="None")
     # genre column schema
-    duration = DB.Column(DB.Integer, nullable = False)
+    duration = DB.Column(DB.Integer, default="None")
 
     def __repr__(self):
         return f'<Track: {self.name}>'

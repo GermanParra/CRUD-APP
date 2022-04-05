@@ -42,7 +42,7 @@ td { word-wrap:break-word; }
     There are {{Rows_count}} rows on the Albums table
     {% endif %}</h4>
 
-<table style="width:70%">
+<table style="width:75%">
     <tr>
       <th>Title</th>
       <th>Artist</th>
@@ -57,13 +57,29 @@ td { word-wrap:break-word; }
             <th> {{ row.artist }}</th>
             <th> {{ row.released }}</th>
             <th>
-              <form action="edit" method="post">
-                <input type="hidden" value="{{ row.id }}" name="row_id">
-                <input type="submit" value="Edit"> 
-              </form>
+              
+              <div style="float: left; width: 80"> 
+                <form action="tracks" method="post">
+                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="submit" value="Explore"> 
+                </form>
+              </div>
+              <div style="float: left; width: 60" > 
+                <form action="edit_album" method="post">
+                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="submit" value="Edit"> 
+                </form> 
+              </div>
+              <div style="float: left; width: 70"> 
+                <form action="delete" method="post">
+                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="submit" value="Delete"> 
+                </form>
+              </div>
+              
             </th>
             {% else %}
-            <form action="edit" method="post">
+            <form action="edit_album" method="post">
             <th><input type="text" name="edited_title" value="{{ album_info.title }}" required></th>
             <th><input type="text" name="edited_artist" value="{{ album_info.artist }}" required></th>
             <th><input type="date" name="edited_released" value="{{ album_info.released }}" min="1900-01-01" max="2025-01-01" required></th>

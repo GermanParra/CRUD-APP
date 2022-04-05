@@ -29,7 +29,7 @@ class Tracks(DB.Model):
     # artist column schema
     genre = DB.Column(DB.String(30), default="None")
     # genre column schema
-    duration = DB.Column(DB.Integer, default="None")
+    duration = DB.Column(DB.String(30), default="None")
 
     def __repr__(self):
         return f'<Track: {self.name}>'

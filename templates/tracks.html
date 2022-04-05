@@ -47,7 +47,7 @@ td { word-wrap:break-word; }
         </th>
         <th>
             <input type="hidden" value="{{ album_info.id }}" name="album_id">
-            <input type="submit" value="Add Song"> 
+            <input type="submit" value="Add New Song"> 
         </form>
         </th>
   </tr>
@@ -61,13 +61,14 @@ td { word-wrap:break-word; }
     <th>
       
       <div style="float: left; width: 80"> 
-        <form action="" method="post">
+        <form action="edit_songs" method="post">
           <input type="hidden" value="{{ song.id }}" name="song_id">
+          <input type="hidden" value="{{ song.album_id }}" name="album_id">
           <input type="submit" value="Edit"> 
         </form>
       </div>
       <div style="float: left; width: 60" > 
-        <form action="" method="post">
+        <form action="song_delete" method="post">
           <input type="hidden" value="{{ song.id }}" name="song_id">
           <input type="submit" value="Delete"> 
         </form> 

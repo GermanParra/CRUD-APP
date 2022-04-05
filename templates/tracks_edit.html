@@ -1,0 +1,104 @@
+<br>
+<br>
+<form action="/" method="get">
+    <input type="submit" value="Back to Albums Table"> 
+</form>
+
+<H3>Album: {{album_info.title}} <br>
+Artist: {{album_info.artist}} <br>
+Songs: {{songs_count}}</H3>
+
+<html>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout:fixed;
+  padding: 6px;
+}
+
+tr {background-color: #abe9e9;}
+tr:first-child {background-color: #6fc2c2;}
+
+td { word-wrap:break-word; }
+</style>
+<body>
+
+<table style="width:75%">
+  <tr>
+    <th>Name</th>
+    <th>Genre</th>
+    <th>Duration</th>
+    <th>Action</th>
+  </tr>
+  <tr>
+    <form action="song_insert" method="post">
+        <th><input type="text" name="name" value="" required></th>
+        <th><input type="text" name="genre" value="" required></th>
+        <th>
+              <div style="float: left; width: 80"> 
+                <input type="number" name="mins" min="0" max="20" value="00"> <a> : </a>
+              </div>
+              
+              <div style="float: left; width: 0" > 
+                <input type="number" name="secs" min="0" max="59" value="00"> 
+              </div>
+        </th>
+        <th>
+            <input type="hidden" value="{{ album_info.id }}" name="album_id">
+            <input type="submit" value="Add New Song"> 
+        </form>
+        </th>
+  </tr>
+  <tr>
+    {% for song in Songs %}
+  <tr>
+    
+    <h4>{% if song_info.id != song.id %}
+        <th> {{ song.name }}</th>
+        <th> {{ song.genre }}</th>
+        <th> {{ song.duration }}</th>
+        <th>
+            <div style="float: left; width: 80"> 
+              <form action="edit_songs" method="post">
+                <input type="hidden" value="{{ song.id }}" name="song_id">
+                <input type="hidden" value="{{ song.album_id }}" name="album_id">
+                <input type="submit" value="Edit"> 
+              </form>
+            </div>
+            <div style="float: left; width: 60" > 
+              <form action="song_delete" method="post">
+                <input type="hidden" value="{{ song.id }}" name="song_id">
+                <input type="submit" value="Delete"> 
+              </form> 
+            </div>        
+        </th>
+        {% else %}
+        <form action="edit_songs" method="post">
+            <th><input type="text" name="name" value="{{song.name}}" required></th>
+            <th><input type="text" name="genre" value="{{song.genre}}" required></th>
+            <th>
+                  <div style="float: left; width: 80"> 
+                    <input type="number" name="mins" min="0" max="20" value="{{song.duration[:1]}}"> <a> : </a>
+                  </div>
+                  
+                  <div style="float: left; width: 0" > 
+                    <input type="number" name="secs" min="0" max="59" value="{{song.duration[-2:]}}"> 
+                  </div>
+            </th>
+            <th>
+                <input type="hidden" value="{{ song.id }}" name="song_id">
+                <input type="submit" value="Save"> 
+            </form>
+            </th>
+        {% endif %}</h4> 
+        
+  
+</tr> 
+  {% endfor %}
+
+</table>
+
+</body>
+</html>

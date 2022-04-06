@@ -32,12 +32,12 @@ td { word-wrap:break-word; }
 <body>
 
 <h2>Albums Table</h2>
-<h4>{% if Rows_count == 0 %}
+<h4>{% if Albums_count == 0 %}
     The Albums table is Empty
-    {% elif Rows_count == 1 %}
+    {% elif Albums_count == 1 %}
     There is 1 row on the Albums table
     {% else %}
-    There are {{Rows_count}} rows on the Albums table
+    There are {{Albums_count}} rows on the Albums table
     {% endif %}</h4>
 
 <table style="width:75%">
@@ -48,29 +48,29 @@ td { word-wrap:break-word; }
       <th>Action</th>
     </tr>
     <tr>
-      {% for row in Albums %}
+      {% for album in Albums %}
     <tr>
-        <h4>{% if album_info.id != row.id %}
-            <th> {{ row.title }}</th>
-            <th> {{ row.artist }}</th>
-            <th> {{ row.released }}</th>
+        <h4>{% if Editing_album.id != album.id %}
+            <th> {{ album.title }}</th>
+            <th> {{ album.artist }}</th>
+            <th> {{ album.released }}</th>
             <th>
               
               <div style="float: left; width: 80"> 
                 <form action="tracks" method="post">
-                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="hidden" value="{{ album.id }}" name="exploring_album_id">
                   <input type="submit" value="Explore"> 
                 </form>
               </div>
               <div style="float: left; width: 60" > 
                 <form action="edit_album" method="post">
-                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="hidden" value="{{ album.id }}" name="editing_album_id">
                   <input type="submit" value="Edit"> 
                 </form> 
               </div>
               <div style="float: left; width: 70"> 
                 <form action="album_delete" method="post">
-                  <input type="hidden" value="{{ row.id }}" name="row_id">
+                  <input type="hidden" value="{{ album.id }}" name="deleting_album_id">
                   <input type="submit" value="Delete"> 
                 </form>
               </div>
@@ -78,14 +78,15 @@ td { word-wrap:break-word; }
             </th>
             {% else %}
             <form action="edit_album" method="post">
-            <th><input type="text" name="edited_title" value="{{ album_info.title }}" required></th>
-            <th><input type="text" name="edited_artist" value="{{ album_info.artist }}" required></th>
-            <th><input type="date" name="edited_released" value="{{ album_info.released }}" min="1900-01-01" max="2025-01-01" required></th>
+            <th><input type="text" name="edited_title" value="{{ album.title }}" required></th>
+            <th><input type="text" name="edited_artist" value="{{ album.artist }}" required></th>
+            <th><input type="date" name="edited_released" value="{{ album.released }}" min="1900-01-01" max="2025-01-01" required></th>
             <th>
-                <input type="hidden" name="album_id" value="{{ album_info.id }}">
+                <input type="hidden" name="edited_album_id" value="{{ album.id }}">
                 <input type="submit"> 
-            </form>
             </th>
+            </form>
+            
             {% endif %}</h4> 
             
       

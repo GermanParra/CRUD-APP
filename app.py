@@ -19,48 +19,35 @@ DB.init_app(app)
 def home():
     # Quering DB to display table and row count on HTML 
     albums = Albums.query.all()
-    rows_count = Albums.query.count()
-    return render_template('home.html', Albums = albums, Rows_count=rows_count)
-
-
-@app.route('/reset', methods=['POST'])
-def reset():
-    # Reseting Database
-    DB.drop_all()
-    DB.create_all()
-    DB.session.commit()
-    # Quering DB to display table and row count on HTML 
-    albums = Albums.query.all()
-    rows_count = Albums.query.count()
-    return render_template('reset.html', Albums = albums, Rows_count=rows_count)
+    albums_count = Albums.query.count()
+    return render_template('home.html', Albums=albums, Albums_count=albums_count)
 
 
 
 @app.route('/album_insert', methods=['POST'])
 def album_insert(): 
     # Inserting New Row Info into Albums Table 
-    album_info = [request.form['title'], request.form['artist'], datetime.strptime(request.form['released'], '%Y-%m-%d')]
-    album_row = Albums(title=album_info[0], artist=album_info[1], released=album_info[2])
-    DB.session.add(album_row)
+    new_album = Albums(title=request.form['title'], artist=request.form['artist'], released=datetime.strptime(request.form['released'], '%Y-%m-%d'))
+    DB.session.add(new_album)
     DB.session.commit() 
     # Quering DB to display table and row count on HTML 
     albums = Albums.query.all()
-    rows_count = Albums.query.count() 
-    return render_template('album_insert.html', new_row_info=album_info, Albums = albums, Rows_count=rows_count)
+    albums_count = Albums.query.count() 
+    return render_template('album_insert.html', New_album=new_album, Albums=albums, Albums_count=albums_count)
+
 
 
 @app.route('/edit_album', methods=['POST'])
 def edit_album():
-    if "album_id" in request.form:
-        album_id = request.form["row_id"]
-        album_info = Albums.query.filter_by(id=album_id).first()
+    if "editing_album_id" in request.form:
+        editing_album = Albums.query.filter_by(id=request.form["editing_album_id"]).first()
         # Quering DB to display table and row count on HTML 
         albums = Albums.query.all()
-        rows_count = Albums.query.count()
-        return render_template('album_edit.html', Rows_count=rows_count, Albums = albums, album_info = album_info)
+        albums_count = Albums.query.count()
+        return render_template('album_edit.html', Editing_album=editing_album, Albums=albums, Albums_count=albums_count)
     else:
         # Requesting Changes
-        id = request.form['row_id']
+        id = request.form['edited_album_id']
         title = request.form['edited_title']
         artist = request.form['edited_artist']
         released = request.form['edited_released']
@@ -73,14 +60,37 @@ def edit_album():
         DB.session.commit()
         # Quering DB to display table and row count on HTML 
         albums = Albums.query.all()
-        rows_count = Albums.query.count()
-        return render_template('home.html', Albums = albums, Rows_count=rows_count)
+        albums_count = Albums.query.count() 
+        return render_template('home.html',  Albums=albums, Albums_count=albums_count)
+    
         
+
+@app.route('/reset', methods=['POST'])
+def reset():
+    # Reseting Database
+    DB.drop_all()
+    DB.create_all()
+    DB.session.commit()
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    albums_count = Albums.query.count() 
+    return render_template('reset.html', Albums=albums, Albums_count=albums_count)
+
+
+@app.route('/tracks', methods=['POST'])
+def tracks():
+    album_id = request.form["exploring_album_id"]
+    album_info = Albums.query.filter_by(id=album_id).first()
+    # Quering DB to display song's table and count on HTML 
+    songs_count = Tracks.query.filter_by(album_id=album_id).count()
+    songs = Tracks.query.filter_by(album_id=album_id)
+    return render_template('tracks.html', Songs=songs, songs_count=songs_count, album_info=album_info)
+
 
 
 @app.route('/album_delete', methods=['POST'])
 def album_delete():
-    album_id = request.form["row_id"]
+    album_id = request.form["deleting_album_id"]
     album_info = Albums.query.filter_by(id=album_id).first()
     songs = Tracks.query.filter_by(album_id=album_id)
     DB.session.delete(album_info)
@@ -92,15 +102,6 @@ def album_delete():
     rows_count = Albums.query.count()
     return render_template('album_delete.html', Albums=albums, Rows_count=rows_count, album_info=album_info)
 
-
-
-@app.route('/tracks', methods=['POST'])
-def tracks():
-    album_id = request.form["row_id"]
-    album_info = Albums.query.filter_by(id=album_id).first()
-    songs_count = Tracks.query.filter_by(album_id=album_id).count()
-    songs = Tracks.query.filter_by(album_id=album_id)
-    return render_template('tracks.html', Songs=songs, songs_count=songs_count, album_info=album_info)
 
 
 @app.route('/song_insert', methods=['POST'])

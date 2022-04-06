@@ -1,3 +1,5 @@
+<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/5jgFfDIR6FR0gvlA56Nakr?utm_source=generator&theme=0" width="250" height="80"></iframe>
+
 <h1>CRUD APP</h1>
 
 <form action="album_insert" method="post">
@@ -33,11 +35,11 @@ td { word-wrap:break-word; }
 
 <h2>Albums Table</h2>
 <h4>{% if Albums_count == 0 %}
-    The Albums table is Empty
+    The Database is Empty, Insert your first Album above!!
     {% elif Albums_count == 1 %}
-    There is 1 row on the Albums table
+    There is only 1 Album on the Database, try adding some more!!
     {% else %}
-    There are {{Albums_count}} rows on the Albums table
+    There are {{Albums_count}} albums on the Database, 'Explore' them to check out the songs!!!
     {% endif %}</h4>
 
 <table style="width:75%">

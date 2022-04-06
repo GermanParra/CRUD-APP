@@ -33,11 +33,11 @@ td { word-wrap:break-word; }
 
 <h2>Albums Table</h2>
 <h4>{% if Albums_count == 0 %}
-    The Albums table is Empty
+    The Database is Empty, Insert your first Album above!!
     {% elif Albums_count == 1 %}
-    There is 1 row on the Albums table
+    There is only 1 Album on the Database, try adding some more!!
     {% else %}
-    There are {{Albums_count}} rows on the Albums table
+    There are {{Albums_count}} albums on the Database, 'Explore' them to check out the songs!!!
     {% endif %}</h4>
 
 <table style="width:75%">
@@ -83,7 +83,7 @@ td { word-wrap:break-word; }
             <th><input type="date" name="edited_released" value="{{ album.released }}" min="1900-01-01" max="2025-01-01" required></th>
             <th>
                 <input type="hidden" name="edited_album_id" value="{{ album.id }}">
-                <input type="submit"> 
+                <input type="submit" value="Save"> 
             </th>
             </form>
             

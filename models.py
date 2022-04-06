@@ -26,8 +26,6 @@ class Tracks(DB.Model):
     album_id = DB.Column(DB.Integer, DB.ForeignKey('albums.id'), nullable=False)
     # name column schema
     name = DB.Column(DB.String(30), default="None")
-    # artist column schema
-    genre = DB.Column(DB.String(30), default="None")
     # genre column schema
     duration = DB.Column(DB.String(30), default="None")
 

@@ -109,7 +109,7 @@ def song_insert():
     album_id = request.form["album_id"]
     album_info = Albums.query.filter_by(id=album_id).first()
     # Inserting New Song Info into Tracks Table 
-    song_row = Tracks(album_id=album_id, name=request.form['name'], genre=request.form['genre'], duration=str(request.form['mins'])+':'+str(request.form['secs'])) 
+    song_row = Tracks(album_id=album_id, name=request.form['name'], duration=str(request.form['mins'])+':'+str(request.form['secs'])) 
     DB.session.add(song_row)
     DB.session.commit() 
     # Quering DB to display table and row count on HTML 
@@ -132,12 +132,10 @@ def edit_songs():
         # Requesting Changes
         song_id = request.form['song_id']
         name = request.form['name']
-        genre = request.form['genre']
         duration = str(request.form['mins'])+':'+str(request.form['secs'])
         # Replacing Changed features
         song = Tracks.query.get(song_id)
         song.name = name
-        song.genre = genre
         song.duration = duration
         # Saving Changes
         DB.session.commit()

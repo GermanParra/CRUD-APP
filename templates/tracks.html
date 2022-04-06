@@ -28,14 +28,12 @@ td { word-wrap:break-word; }
 <table style="width:75%">
   <tr>
     <th>Name</th>
-    <th>Genre</th>
     <th>Duration</th>
     <th>Action</th>
   </tr>
   <tr>
     <form action="song_insert" method="post">
         <th><input type="text" name="name" value="" required></th>
-        <th><input type="text" name="genre" value="" required></th>
         <th>
               <div style="float: left; width: 80"> 
                 <input type="number" name="mins" min="0" max="20" value="00"> <a> : </a>
@@ -56,7 +54,6 @@ td { word-wrap:break-word; }
   <tr>
     
     <th> {{ song.name }}</th>
-    <th> {{ song.genre }}</th>
     <th> {{ song.duration }}</th>
     <th>
       

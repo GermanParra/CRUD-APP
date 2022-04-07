@@ -3,7 +3,6 @@ from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
 
 
-
 app = Flask(__name__)
 
 

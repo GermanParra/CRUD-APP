@@ -1,10 +1,11 @@
 from datetime import datetime
+from distutils.log import debug
 from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
-
+import os
 
 app = Flask(__name__)
-
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 # Database configurations
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Turn off verification when we request changes to db
@@ -161,5 +162,5 @@ def song_delete():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 

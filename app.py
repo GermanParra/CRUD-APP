@@ -3,6 +3,7 @@ from distutils.log import debug
 from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
 import os
+from spotify_data_access import search_albums, get_albums_data, get_albums_tracks_data, create_player_sources
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))

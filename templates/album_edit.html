@@ -1,19 +1,4 @@
 <h1>CRUD APP</h1>
-
-<form action="album_insert" method="post">
-    
-        <lable for="title">Title</lable> 
-        <input type="text" name="title" value="" required> <br>
-
-        <lable for="artist">Artist</lable> 
-        <input type="text" name="artist" value="" required> <br>
-        
-        <label for="released">Released</label>
-        <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
-
-        <input type="submit" value="Insert New Album">
-</form>
-
 <html>
 <style>
 table, th, td {
@@ -29,6 +14,73 @@ tr:first-child {background-color: #6fc2c2;}
 
 td { word-wrap:break-word; }
 </style>
+
+<form action="" method="post"> 
+  <a>Search on Spotify API for albums to add to the Database</a> <br>
+  <input type="text" name="input_search" value="" required> 
+  <br>
+  <input type="submit" value="Search">
+</form>
+<br>
+<br>
+
+{% if S_albums_data %}
+  <table style="width:75%">
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Released</th>
+      <th>Total Tracks</th>
+      <th>Action</th>
+    </tr>
+    
+    <tr>
+      {% for album in S_albums_data %}
+    <tr>
+      
+      <th> {{ album.title }}</th>
+      <th> {{ album.artist }}</th>
+      <th> {{ album.released }}</th>
+      <th> {{ album.total_tracks }}</th>
+      <th>
+        
+        <div style="float: left; width: 80"> 
+          <form action="s_tracks" method="post">
+            <input type="hidden" value="{{ album.id }}" name="exploring_s_album_id">
+            <input type="submit" value="Explore"> 
+          </form>
+        </div>
+        <div style="float: left; width: 60" > 
+          <form action="s_album_insert" method="post">
+            <input type="hidden" value="{{ album.id }}" name="inserting_s_album_id">
+            <input type="submit" value="Save"> 
+          </form> 
+        </div>
+            
+      </th>
+      
+    </tr> 
+      {% endfor %}
+      
+  </table>
+{% endif %}
+<br>
+<br>
+<form action="album_insert" method="post">
+    
+        <lable for="title">Title</lable> 
+        <input type="text" name="title" value="" required> <br>
+
+        <lable for="artist">Artist</lable> 
+        <input type="text" name="artist" value="" required> <br>
+        
+        <label for="released">Released</label>
+        <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
+
+        <input type="submit" value="Insert New Album">
+</form>
+
+
 <body>
 
 <h2>Albums Table</h2>

@@ -24,6 +24,18 @@ def home():
     return render_template('home.html', Albums=albums, Albums_count=albums_count)
 
 
+@app.route('/search', methods=['POST'])
+def search():
+    input_search = request.form['input_search']
+    s_albums = search_albums(input_search)
+    s_albums_data = get_albums_data(s_albums)
+    s_albums_tracks_data = get_albums_tracks_data(s_albums_data)
+    s_players = create_player_sources(s_albums_data)
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    albums_count = Albums.query.count()
+    return render_template('home.html', Albums=albums, Albums_count=albums_count, S_albums_data=s_albums_data, S_tracks_data=s_albums_tracks_data, S_players=s_players)
+
 
 @app.route('/album_insert', methods=['POST'])
 def album_insert(): 
@@ -160,6 +172,11 @@ def song_delete():
     songs_count = Tracks.query.filter_by(album_id=song.album_id).count()
     songs = Tracks.query.filter_by(album_id=song.album_id) 
     return render_template('tracks_delete.html', Songs=songs, songs_count=songs_count, album_info=album_info, song_info=song)
+
+
+
+
+
 
 
 if __name__ == '__main__':

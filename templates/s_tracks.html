@@ -1,0 +1,67 @@
+<br>
+<br>
+<form action="/" method="get">
+    <input type="submit" value="Back to Albums Table"> 
+</form>
+
+<H3>Album: {{album_info['title']}} <br>
+Artist: {{album_info['artist']}} <br>
+Songs: {{songs_count}}</H3>
+
+<html>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+  table-layout:fixed;
+  padding: 6px;
+}
+
+tr {background-color: #abe9e9;}
+tr:first-child {background-color: #6fc2c2;}
+
+td { word-wrap:break-word; }
+</style>
+<body>
+
+<table style="width:75%">
+  <tr>
+    <th>Name</th>
+    <th>Duration</th>
+    <th>Play</th>
+    <th>Action</th>
+  </tr>
+
+  <tr>
+    {% for song in Songs[0] %}
+  <tr>
+    
+    <th> {{ song['name'] }}</th>
+    <th> {{ song['duration'] }}</th>
+    <th> {{ song['id'] }} </th>
+    <th>
+      
+      <div style="float: left; width: 80"> 
+        <form action="edit_songs" method="post">
+          <input type="hidden" value="{{ song.id }}" name="song_id">
+          <input type="hidden" value="{{ song.album_id }}" name="album_id">
+          <input type="submit" value="Edit"> 
+        </form>
+      </div>
+      <div style="float: left; width: 60" > 
+        <form action="song_delete" method="post">
+          <input type="hidden" value="{{ song.id }}" name="song_id">
+          <input type="submit" value="Delete"> 
+        </form> 
+      </div>
+          
+    </th>
+    
+  </tr> 
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

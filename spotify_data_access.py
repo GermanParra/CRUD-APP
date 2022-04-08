@@ -47,8 +47,8 @@ def get_albums_tracks_data(albums_data):
   return tracks_data
   # tracks_data[0][0] SAMPLE --> {'duration': '3:51', 'id': '2ATDkfqprlNNe9mYWodgdc', 'name': 'Dancing Queen'}
 
-def create_player_sources(albums_data):
-    albums_ids = [i['id'] for i in albums_data]
+def create_player_sources(tracks_data):
+    albums_ids = [i['id'] for i in tracks_data[0]]
     sources = []
     for id in albums_ids:
         sources.append(f"https://open.spotify.com/embed/track/{id}?utm_source=generator&theme=0")

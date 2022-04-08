@@ -37,6 +37,18 @@ def search():
     return render_template('home.html', Albums=albums, Albums_count=albums_count, S_albums_data=s_albums_data, S_tracks_data=s_albums_tracks_data, S_players=s_players)
 
 
+@app.route('/s_tracks', methods=['POST'])
+def s_tracks():
+    album_info = {'id':request.form["s_album_id"],
+                 'title':request.form["s_album_title"],
+                 'artist':request.form["s_album_artist"]}
+    s_album_tracks = get_albums_tracks_data([{'id':album_info['id']}])
+    # Quering DB to display song's table and count on HTML 
+    total_tracks = request.form["total_tracks"]
+    return render_template('s_tracks.html', Songs=s_album_tracks, songs_count=total_tracks, album_info=album_info)
+
+
+
 @app.route('/album_insert', methods=['POST'])
 def album_insert(): 
     # Inserting New Row Info into Albums Table 

@@ -46,7 +46,10 @@ td { word-wrap:break-word; }
         
         <div style="float: left; width: 80"> 
           <form action="s_tracks" method="post">
-            <input type="hidden" value="{{ album.id }}" name="exploring_s_album_id">
+            <input type="hidden" value="{{ album.id }}" name="s_album_id">
+            <input type="hidden" value="{{ album.title }}" name="s_album_title">
+            <input type="hidden" value="{{ album.artist }}" name="s_album_artist">
+            <input type="hidden" value="{{ album.total_tracks }}" name="total_tracks">
             <input type="submit" value="Explore"> 
           </form>
         </div>

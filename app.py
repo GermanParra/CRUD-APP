@@ -45,7 +45,8 @@ def s_tracks():
     s_album_tracks = get_albums_tracks_data([{'id':album_info['id']}])
     # Quering DB to display song's table and count on HTML 
     total_tracks = request.form["total_tracks"]
-    return render_template('s_tracks.html', Songs=s_album_tracks, songs_count=total_tracks, album_info=album_info)
+    albums = Albums.query.all()
+    return render_template('s_tracks.html',Albums=albums, Songs=s_album_tracks, songs_count=total_tracks, album_info=album_info)
 
 
 

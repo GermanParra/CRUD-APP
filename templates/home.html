@@ -4,7 +4,7 @@
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   table-layout:fixed;
   padding: 6px;
 }
@@ -22,10 +22,9 @@ td { word-wrap:break-word; }
         <br>
         <input type="submit" value="Search">
 </form>
-<br>
-<br>
+<h2>Search Results</h2>
 {% if S_albums_data %}
-  <table style="width:75%">
+  <table>
     <tr>
       <th>Title</th>
       <th>Artist</th>
@@ -44,7 +43,7 @@ td { word-wrap:break-word; }
       <th> {{ album.total_tracks }}</th>
       <th>
         
-        <div style="float: left; width: 80"> 
+        <div style="float: left; width: 75;"> 
           <form action="s_tracks" method="post">
             <input type="hidden" value="{{ album.id }}" name="s_album_id">
             <input type="hidden" value="{{ album.title }}" name="s_album_title">
@@ -53,10 +52,11 @@ td { word-wrap:break-word; }
             <input type="submit" value="Explore"> 
           </form>
         </div>
-        <div style="float: left; width: 60" > 
+        
+        <div style="float: right;" > 
           <form action="s_album_insert" method="post">
             <input type="hidden" value="{{ album.id }}" name="inserting_s_album_id">
-            <input type="submit" value="Save"> 
+            <input type="submit" value="Add to Database"> 
           </form> 
         </div>
             

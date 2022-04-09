@@ -1,7 +1,7 @@
 <br>
 <br>
-<form action="/" method="get">
-    <input type="submit" value="Back to Albums Table"> 
+<form>
+    <input type="button" value="Go back!" onclick="history.back()">
 </form>
 
 <H3>Album: {{album_info['title']}} <br>
@@ -13,7 +13,7 @@ Songs: {{songs_count}}</H3>
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   table-layout:fixed;
   padding: 6px;
 }
@@ -25,12 +25,12 @@ td { word-wrap:break-word; }
 </style>
 <body>
 
-<table style="width:75%">
+<table>
   <tr>
     <th>Name</th>
     <th>Duration</th>
     <th>Play</th>
-    <th>Action</th>
+    <th>Add to existing album</th>
   </tr>
 
   <tr>
@@ -38,23 +38,21 @@ td { word-wrap:break-word; }
   <tr>
     
     <th> {{ song['name'] }}</th>
-    <th> {{ song['duration'] }}</th>
-    <th> {{ song['id'] }} </th>
+    <th> {{ song['duration'] }}</th>  <!--{ song['player_src'] }-->
+    <th><iframe   style="border-radius:12px" src={{song["player_src"]}} width="250" height="80" allow="autoplay; clipboard-write; encrypted-media;"></iframe></th>
     <th>
       
-      <div style="float: left; width: 80"> 
-        <form action="edit_songs" method="post">
-          <input type="hidden" value="{{ song.id }}" name="song_id">
-          <input type="hidden" value="{{ song.album_id }}" name="album_id">
-          <input type="submit" value="Edit"> 
-        </form>
-      </div>
-      <div style="float: left; width: 60" > 
-        <form action="song_delete" method="post">
-          <input type="hidden" value="{{ song.id }}" name="song_id">
-          <input type="submit" value="Delete"> 
-        </form> 
-      </div>
+       
+        <form action="">
+            <label for="albums">Album:</label>
+            <select id="albums">
+                {% for album in Albums %}
+                    <option value="volvo">{{album.title}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Add">
+          </form>
+      
           
     </th>
     

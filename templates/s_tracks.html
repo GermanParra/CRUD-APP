@@ -43,13 +43,17 @@ td { word-wrap:break-word; }
     <th>
       
        
-        <form action="">
+        <form action="song_insert" method="post">
             <label for="albums">Album:</label>
-            <select id="albums">
+            <select name="album_id">
                 {% for album in Albums %}
-                    <option value="volvo">{{album.title}}</option>
+                    <option value="{{album.id}}">{{album.title}}</option>
                 {% endfor %}
             </select>
+            <input type="hidden" value="{{ song['name'] }}" name="name">
+            <input type="hidden" value="{{ song['album_id'] }}" name="album_id">
+            <input type="hidden" value="{{ song['duration'] }}" name="duration">
+            <input type="hidden" value="{{song['player_src']}}" name="player_src">
             <input type="submit" value="Add">
           </form>
       

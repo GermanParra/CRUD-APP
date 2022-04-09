@@ -53,13 +53,40 @@ def s_tracks():
 @app.route('/album_insert', methods=['POST'])
 def album_insert(): 
     # Inserting New Row Info into Albums Table 
-    new_album = Albums(title=request.form['title'], artist=request.form['artist'], released=datetime.strptime(request.form['released'], '%Y-%m-%d'))
+    new_album = Albums(s_id=request.form['s_id'],
+                       title=request.form['title'], 
+                       artist=request.form['artist'], 
+                       released=request.form['released'], 
+                       total_tracks=request.form['total_tracks'])
     DB.session.add(new_album)
     DB.session.commit() 
+    # Getting Tracks Info
+    album_tracks = get_albums_tracks_data([{'id':new_album.s_id}])
+    # Inserting New Tracks into the DB 
+    for track in album_tracks[0]:
+        song_row = Tracks(album_id=new_album.id, name=track['name'], duration=track['duration'], player_src=track['player_src'])
+        DB.session.add(song_row)
+        DB.session.commit() 
     # Quering DB to display table and row count on HTML 
     albums = Albums.query.all()
     albums_count = Albums.query.count() 
     return render_template('album_insert.html', New_album=new_album, Albums=albums, Albums_count=albums_count)
+
+
+@app.route('/costume_album', methods=['POST'])
+def costume_album(): 
+    # Inserting New Row Info into Albums Table 
+    new_album = Albums(title=request.form['title'], 
+                       artist=request.form['artist'], 
+                       released= "N/A", 
+                       total_tracks= 0 )
+    DB.session.add(new_album)
+    DB.session.commit() 
+    
+    # Quering DB to display table and row count on HTML 
+    albums = Albums.query.all()
+    albums_count = Albums.query.count() 
+    return render_template('home.html', New_album=new_album, Albums=albums, Albums_count=albums_count)
 
 
 
@@ -76,12 +103,10 @@ def edit_album():
         id = request.form['edited_album_id']
         title = request.form['edited_title']
         artist = request.form['edited_artist']
-        released = request.form['edited_released']
         # Replacing Changed features
         row = Albums.query.get(id)
         row.title = title
         row.artist = artist
-        row.released = datetime.strptime(released, '%Y-%m-%d')
         # Saving Changes
         DB.session.commit()
         # Quering DB to display table and row count on HTML 
@@ -135,8 +160,13 @@ def song_insert():
     album_id = request.form["album_id"]
     album_info = Albums.query.filter_by(id=album_id).first()
     # Inserting New Song Info into Tracks Table 
-    song_row = Tracks(album_id=album_id, name=request.form['name'], duration=str(request.form['mins'])+':'+str(request.form['secs'])) 
+    song_row = Tracks(album_id=album_id,
+                      name=request.form['name'],
+                      duration=request.form['duration'],
+                      player_src=request.form['player_src']) 
     DB.session.add(song_row)
+    album_info.total_tracks += 1
+
     DB.session.commit() 
     # Quering DB to display table and row count on HTML 
     songs_count = Tracks.query.filter_by(album_id=album_id).count()
@@ -144,10 +174,11 @@ def song_insert():
     return render_template('tracks.html', Songs=songs, songs_count=songs_count, album_info=album_info)
 
 
-@app.route('/edit_songs', methods=['POST'])
-def edit_songs():
-    if "album_id" in request.form:
-        song_id = request.form['song_id']
+@app.route('/edit_song', methods=['POST'])
+def edit_song():
+    
+    if "editing_song_id" in request.form:
+        song_id = request.form['editing_song_id']
         song_info = Tracks.query.filter_by(id=song_id).first()
         album_info = Albums.query.filter_by(id=song_info.album_id).first()
         # Quering DB to display table and row count on HTML 
@@ -158,11 +189,9 @@ def edit_songs():
         # Requesting Changes
         song_id = request.form['song_id']
         name = request.form['name']
-        duration = str(request.form['mins'])+':'+str(request.form['secs'])
         # Replacing Changed features
         song = Tracks.query.get(song_id)
         song.name = name
-        song.duration = duration
         # Saving Changes
         DB.session.commit()
         album_info = Albums.query.filter_by(id=song.album_id).first()
@@ -181,6 +210,9 @@ def song_delete():
     DB.session.commit()
 
     album_info = Albums.query.filter_by(id=album_id).first()
+    album_info.total_tracks -= 1
+
+    DB.session.commit()
     # Quering DB to display table and row count on HTML 
     songs_count = Tracks.query.filter_by(album_id=song.album_id).count()
     songs = Tracks.query.filter_by(album_id=song.album_id) 

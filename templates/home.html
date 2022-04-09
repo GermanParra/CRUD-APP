@@ -10,20 +10,21 @@ table, th, td {
 }
 
 tr {background-color: #abe9e9;}
-tr:first-child {background-color: #6fc2c2;}
+tr:first-child {background-color: #3aaaaa;}
 
 td { word-wrap:break-word; }
 </style>
 
 <form action="search" method="post">
     
-  <a>Search on Spotify API for albums to add to the Database</a><br>
+  <a>Search on Spotify for Albums and Songs to add to the Database</a><br>
         <input type="text" name="input_search" value="" required> 
         <br>
         <input type="submit" value="Search">
 </form>
-<h2>Search Results</h2>
+
 {% if S_albums_data %}
+<h2>Search Results</h2>
   <table>
     <tr>
       <th>Title</th>
@@ -54,8 +55,12 @@ td { word-wrap:break-word; }
         </div>
         
         <div style="float: right;" > 
-          <form action="s_album_insert" method="post">
-            <input type="hidden" value="{{ album.id }}" name="inserting_s_album_id">
+          <form action="album_insert" method="post">
+            <input type="hidden" value="{{ album.id }}" name="s_id">
+            <input type="hidden" value="{{ album.title }}" name="title">
+            <input type="hidden" value="{{ album.artist }}" name="artist">
+            <input type="hidden" value="{{ album.released }}" name="released">
+            <input type="hidden" value="{{ album.total_tracks }}" name="total_tracks">
             <input type="submit" value="Add to Database"> 
           </form> 
         </div>
@@ -66,22 +71,8 @@ td { word-wrap:break-word; }
       {% endfor %}
       
   </table>
+  <br>
 {% endif %}
-<br>
-<br>
-<form action="album_insert" method="post">
-    
-        <lable for="title">Title</lable> 
-        <input type="text" name="title" value="" required> <br>
-
-        <lable for="artist">Artist</lable> 
-        <input type="text" name="artist" value="" required> <br>
-        
-        <label for="released">Released</label>
-        <input type="date" name="released" value="" min="1900-01-01" max="2025-01-01" required> <br>
-
-        <input type="submit" value="Insert New Album">
-</form>
 
 <body>
 <h2>Albums Table</h2>
@@ -93,12 +84,25 @@ td { word-wrap:break-word; }
     There are {{Albums_count}} albums on the Database, 'Explore' them to check out the songs!!!
     {% endif %}</h4>
 
-<table style="width:75%">
+<table>
   <tr>
-    <th>Title</th>
-    <th>Artist</th>
+    <th>Album</th>
+    <th>Artist/Description</th>
     <th>Released</th>
+    <th>Total Tracks</th>
     <th>Action</th>
+  </tr>
+
+  <tr>
+    <form action="costume_album" method="post">
+      <th><input type="text" name="title" value="" required></th>
+      <th><input type="text" name="artist" value="" ></th>
+      <th>  </th>
+      <th>{{ 0 }}</th>
+      <th>
+          <input type="submit" value="Create Album"> 
+      </th>
+      </form>
   </tr>
   
   <tr>
@@ -108,6 +112,7 @@ td { word-wrap:break-word; }
     <th> {{ album.title }}</th>
     <th> {{ album.artist }}</th>
     <th> {{ album.released }}</th>
+    <th> {{ album.total_tracks }}</th>
     <th>
       
       <div style="float: left; width: 80"> 
@@ -116,10 +121,10 @@ td { word-wrap:break-word; }
           <input type="submit" value="Explore"> 
         </form>
       </div>
-      <div style="float: left; width: 60" > 
+      <div style="float: left; width: 80" > 
         <form action="edit_album" method="post">
           <input type="hidden" value="{{ album.id }}" name="editing_album_id">
-          <input type="submit" value="Edit"> 
+          <input type="submit" value="Edit Name"> 
         </form> 
       </div>
       <div style="float: left; width: 70"> 

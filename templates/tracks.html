@@ -13,7 +13,7 @@ Songs: {{songs_count}}</H3>
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
-  width: 100%;
+  width: auto;
   table-layout:fixed;
   padding: 6px;
 }
@@ -25,46 +25,29 @@ td { word-wrap:break-word; }
 </style>
 <body>
 
-<table style="width:75%">
+<table >
   <tr>
     <th>Name</th>
     <th>Duration</th>
+    <th>Play</th>
     <th>Action</th>
   </tr>
-  <tr>
-    <form action="song_insert" method="post">
-        <th><input type="text" name="name" value="" required></th>
-        <th>
-              <div style="float: left; width: 80"> 
-                <input type="number" name="mins" min="0" max="20" value="00"> <a> : </a>
-              </div>
-              
-              <div style="float: left; width: 0" > 
-                <input type="number" name="secs" min="0" max="59" value="00"> 
-              </div>
-        </th>
-        <th>
-            <input type="hidden" value="{{ album_info.id }}" name="album_id">
-            <input type="submit" value="Add New Song"> 
-        </form>
-        </th>
-  </tr>
+  
   <tr>
     {% for song in Songs %}
   <tr>
     
     <th> {{ song.name }}</th>
     <th> {{ song.duration }}</th>
+    <th><iframe   style="border-radius:12px" src={{song["player_src"]}} width="250" height="80" allow="autoplay; clipboard-write; encrypted-media;"></iframe></th>
     <th>
-      
-      <div style="float: left; width: 80"> 
-        <form action="edit_songs" method="post">
-          <input type="hidden" value="{{ song.id }}" name="song_id">
-          <input type="hidden" value="{{ song.album_id }}" name="album_id">
+      <div style="float: left; width: 50" > 
+        <form action="edit_song" method="post">
+          <input type="hidden" value="{{ song.id }}" name="editing_song_id">
           <input type="submit" value="Edit"> 
-        </form>
+        </form> 
       </div>
-      <div style="float: left; width: 60" > 
+      <div style="float: left;" > 
         <form action="song_delete" method="post">
           <input type="hidden" value="{{ song.id }}" name="song_id">
           <input type="submit" value="Delete"> 

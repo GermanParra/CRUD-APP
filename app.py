@@ -2,18 +2,18 @@ from datetime import datetime
 from distutils.log import debug
 from flask import Flask, render_template, request #, redirect, url_for, jsonify
 from models import DB, Albums, Tracks
-import os
+from os import getenv
+#import os
 from spotify_data_access import search_albums, get_albums_data, get_albums_tracks_data, create_player_sources
 
-
 def create_app():
-    
+
     app = Flask(__name__)
-    basedir = os.path.abspath(os.path.dirname(__file__))
+    #basedir = os.path.abspath(os.path.dirname(__file__))
 
     # Database configurations
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Turn off verification when we request changes to db
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///database.db' #getenv('DATABASE_URI')
+    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db.sqlite3' #getenv('DATABASE_URI')
 
     # Connect DB to Flask app
     DB.init_app(app)
@@ -222,8 +222,8 @@ def create_app():
         return render_template('tracks_delete.html', Songs=songs, songs_count=songs_count, album_info=album_info, song_info=song)
 
 
-    if __name__ == '__main__':
-        app.run(debug=True)
+  #  if __name__ == '__main__':
+   #     app.run(debug=True)
 
 
     return app

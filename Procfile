@@ -1,1 +1,2 @@
-web: gunicorn Mymusic:APP -t 120
+web: gunicorn CRUD-APP:APP -t 120
+

@@ -1,1 +1,1 @@
-web: gunicorn app:app -t 120
+web: gunicorn CRUD-APP:APP -t 120

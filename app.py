@@ -221,8 +221,8 @@ def create_app():
         return render_template('tracks_delete.html', Songs=songs, songs_count=songs_count, album_info=album_info, song_info=song)
 
 
-  #  if __name__ == '__main__':
-   #     app.run(debug=True)
+    if __name__ == '__main__':
+        app.run(debug=True)
 
 
     return app

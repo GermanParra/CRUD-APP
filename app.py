@@ -1,7 +1,6 @@
-from datetime import datetime
-from distutils.log import debug
 from flask import Flask, render_template, request #, redirect, url_for, jsonify
-from models import DB, Albums, Tracks
+from .models import DB, Albums, Tracks
+import os
 from os import getenv
 #import os
 from spotify_data_access import search_albums, get_albums_data, get_albums_tracks_data, create_player_sources
@@ -13,7 +12,7 @@ def create_app():
 
     # Database configurations
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False # Turn off verification when we request changes to db
-    app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///db.sqlite3' #getenv('DATABASE_URI')
+    app.config["SQLALCHEMY_DATABASE_URI"] = getenv('DATABASE_URI')
 
     # Connect DB to Flask app
     DB.init_app(app)

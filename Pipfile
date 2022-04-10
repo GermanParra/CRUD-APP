@@ -8,6 +8,7 @@ flask-sqlalchemy = "*"
 spotipy = "*"
 flask = "*"
 gunicorn = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

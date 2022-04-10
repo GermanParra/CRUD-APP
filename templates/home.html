@@ -143,8 +143,17 @@ td { word-wrap:break-word; }
 <br>
 <br>
 <form action="reset" method="post">
-  <input type="submit" value="Reset Database">
+  <input type="submit" onclick="return clicked()" value="Reset Database">
 </form>
+<script type="text/javascript">
+  function clicked() {
+     if (confirm('This Action will delete all Albums from the Database. Click "OK" if you still want to proceed with the reset.')) {
+         yourformelement.submit();
+     } else {
+         return false;
+     }
+  }
 
+</script>
 </body>
 </html>

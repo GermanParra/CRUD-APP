@@ -3,7 +3,7 @@ from .models import DB, Albums, Tracks
 import os
 from os import getenv
 #import os
-from spotify_data_access import search_albums, get_albums_data, get_albums_tracks_data, create_player_sources
+from .spotify_data_access import search_albums, get_albums_data, get_albums_tracks_data, create_player_sources
 
 def create_app():
 

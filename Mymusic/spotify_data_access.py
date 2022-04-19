@@ -12,11 +12,13 @@ CLIENT_SECRET = getenv('CLIENT_SECRET')
 spotify = spotipy.Spotify(client_credentials_manager=SpotifyClientCredentials(SPOTIPY_CLIENT_ID, CLIENT_SECRET))
 
 def search_albums(input_string):
-    Albums = spotify.search(input_string, limit=5, offset=0, type='album', market=None)['albums']['items']
-    return Albums
+  '''Takes user's input string and pull the information for 5 related albums from the Spotify Database'''
+  Albums = spotify.search(input_string, limit=5, offset=0, type='album', market=None)['albums']['items']
+  return Albums
 
 
 def get_albums_data(Albums):
+  
   albums_data = []
   for album in Albums:
     dic = {}

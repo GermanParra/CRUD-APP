@@ -18,7 +18,8 @@ def search_albums(input_string):
 
 
 def get_albums_data(Albums):
-  
+  '''Takes results from 'search_albums' and extracts required info from albums
+     ( id, artist, released, title, total_tracks)'''
   albums_data = []
   for album in Albums:
     dic = {}
@@ -33,6 +34,8 @@ def get_albums_data(Albums):
 
 
 def get_albums_tracks_data(albums_data):
+  '''Takes results from 'get_albums_data' and extracts required info from tracks
+     ( id, name, duration, player_src )'''
   albums_ids = [i['id'] for i in albums_data]
   tracks_data = []
   for id in albums_ids:
@@ -51,6 +54,8 @@ def get_albums_tracks_data(albums_data):
   # tracks_data[0][0] SAMPLE --> {'duration': '3:51', 'id': '2ATDkfqprlNNe9mYWodgdc', 'name': 'Dancing Queen'}
 
 def create_player_sources(tracks_data):
+    '''Takes results from 'get_albums_tracks_data' and uses tracks id's
+    to return a list with urls that can be use as source on Spotify players'''
     albums_ids = [i['id'] for i in tracks_data]
     sources = []
     for id in albums_ids:

@@ -4,28 +4,30 @@ from flask_sqlalchemy import SQLAlchemy
 # opening up the db connection
 DB = SQLAlchemy()
 
+
 class Albums(DB.Model):
     '''Creates a Album Table with SQLAlchemy'''
     # id column schema
     s_id = DB.Column(DB.Unicode)
     # general_id column schema
-    id = DB.Column(DB.Integer, primary_key = True, autoincrement=True)
+    id = DB.Column(DB.Integer, primary_key=True, autoincrement=True)
     # title column schema
-    title = DB.Column(DB.String(30), nullable = False)
+    title = DB.Column(DB.String(30), nullable=False)
     # artist column schema
-    artist = DB.Column(DB.String(30), nullable = False)
+    artist = DB.Column(DB.String(30), nullable=False)
     # released column schema
-    released = DB.Column(DB.String(30), nullable = False)
+    released = DB.Column(DB.String(30), nullable=False)
     # total_tracks column schema
-    total_tracks = DB.Column(DB.Integer, nullable = False)
+    total_tracks = DB.Column(DB.Integer, nullable=False)
 
     def __repr__(self):
         return f'<Album: {self.title}>'
 
+
 class Tracks(DB.Model):
     '''Creates a Tracks Table with SQLAlchemy'''
     # id column schema
-    id = DB.Column(DB.Integer, primary_key = True)
+    id = DB.Column(DB.Integer, primary_key=True)
     # User Column schema
     s_id = DB.Column(DB.Unicode, DB.ForeignKey('albums.s_id'))
     # User Column schema
